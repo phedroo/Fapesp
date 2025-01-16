@@ -36,16 +36,51 @@ knitr::opts_chunk$set(
 
 ### Relatórios Climate TRACE
 
-1° Dados baixados para o Brasil, para o ano de 2024, em CO2e 100 anos, no dia 15/01/2025 e incorporados à pasta data-raw do projeto.
+Dados baixados para o Brasil, para todo o período (2015-2024), em CO2e 100 anos, no dia 15/01/2025.
+
+Dados salvos na pasta data-raw ("climate-trace")
 
 ### Estação meteorológica
 
-### Aquisição dos dados de focos de incêndio
+### Aquisição dos dados de focos de incêndio (NASA-FIRMS e INPE-DETER-BDQUEIMADAS)
 
-Atualmente, dados requisitados no link (<https://firms.modaps.eosdis.nasa.gov/download/list.php>)
+#### NASA-FIRMS
 
-Atributos dos dados solicitados: Country: "Brasil", Fire source: "MODIS", from "01/01/2015" to "01/01/2025", ".csv"
+Dados requisitados no link <https://firms.modaps.eosdis.nasa.gov/download/list.php>
 
-Passo a Passo para requisição dos dados de focos de incêndio para o Brasil, no período de 01/01/2015 a 01/01/2025
+Atributos dos dados solicitados: Country: "Brasil", Fire source: "MODIS", from "01/01/2015" to "01/01/2025", ".csv".
 
-1° Acesse: <https://firms.modaps.eosdis.nasa.gov> 2° Selecione "ARCHIVE DOWNLOAD" 3° Selecione "Create New Request" (certifique-se que esta logado) 4° Selecione os atributos dos dados requeridos para download 5° Aguarde e-mail com os dados solicitados (demora em torno de horas)
+Passo a Passo para requisição dos dados de focos de incêndio para o Brasil, no período de 01/01/2015 a 01/01/2025:
+
+1° Acesse: <https://firms.modaps.eosdis.nasa.gov>;
+
+2° Selecione "ARCHIVE DOWNLOAD";
+
+3° Selecione "Create New Request" (certifique-se que esta logado);
+
+4° Selecione os atributos dos dados requeridos para download;
+
+5° Aguarde e-mail com os dados solicitados (demora em torno de 6 horas);
+
+Dados salvos na pasta data-raw ("firms_nasa").
+
+
+#### DETER-BDQUEIMADAS
+
+Dados requisitados no link <https://terrabrasilis.dpi.inpe.br/queimadas/bdqueimadas/#exportar-dados>
+
+Atributos dos dados solicitados:
+
+América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua), todos os biomas, período de 01/01/2015 a 01/01/2025 (período solicitado ano a ano, em razão do limite estabelecido pela plataforma), e-mail institucional, formato .csv. 
+
+Dados salvos na pasta data-raw ("focos_deter_bdqueimadas").
+
+## Produtos de mapeamento digital 
+
+### Desmatamento - INPE
+
+#### PRODES
+
+Dados baixados para o Brasil, para todo o período (31/07/2000-30/07/2023), no dia 16/01/2025.
+
+Dados salvos na pasta data-raw ("desmatamento_prodes").
