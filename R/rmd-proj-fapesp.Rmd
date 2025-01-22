@@ -42,7 +42,7 @@ Dados salvos na pasta data-raw ("climate-trace")
 
 ### Estação meteorológica
 
-### Aquisição dos dados de focos de incêndio (NASA-FIRMS e INPE-DETER-BDQUEIMADAS)
+### Aquisição dos dados de focos de incêndio (NASA-FIRMS e INPE-BDQUEIMADAS)
 
 #### NASA-FIRMS
 
@@ -65,15 +65,32 @@ Passo a Passo para requisição dos dados de focos de incêndio para o Brasil, n
 Dados salvos na pasta data-raw ("firms_nasa").
 
 
-#### DETER-BDQUEIMADAS
+#### BDQUEIMADAS
 
 Dados requisitados no link <https://terrabrasilis.dpi.inpe.br/queimadas/bdqueimadas/#exportar-dados>
 
 Atributos dos dados solicitados:
 
-América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua), todos os biomas, período de 01/01/2015 a 01/01/2025 (período solicitado ano a ano, em razão do limite estabelecido pela plataforma), e-mail institucional, formato .csv. 
+América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua/MODIS), todos os biomas, período de 01/01/2015 a 01/01/2025 (período solicitado ano a ano, em razão do limite estabelecido pela plataforma), e-mail institucional, formato .csv. 
 
 Dados salvos na pasta data-raw ("focos_deter_bdqueimadas").
+
+#### DETER 
+
+##### BR
+
+Dados de focos de fogo do período de 08/2018 a 01/2025 para o Brasil adquiridos no link: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_deter" como "br-18-24"
+
+Satélite referência - AQUA/MODIS
+
+##### Estados BRCentral
+
+Dados de focos de fogo ativo para os estados do Brasil Central (Goiás, MT e MS) desde 1998  a 21/01/2025 no link:  <https://terrabrasilis.dpi.inpe.br/queimadas/situacao-atual/estatisticas/estatisticas_estados/>
+
+Dados salvos em .csv na pasta "data-raw/focos_deter" como "brgo", "brmt" e "brms"
+
+Satélite referência - AQUA/MODIS
+
 
 ## Produtos de mapeamento digital 
 
@@ -83,4 +100,4 @@ Dados salvos na pasta data-raw ("focos_deter_bdqueimadas").
 
 Dados baixados para o Brasil, para todo o período (31/07/2000-30/07/2023), no dia 16/01/2025.
 
-Dados salvos na pasta data-raw ("desmatamento_prodes").
+Dados salvos na pasta "desmatamento_prodes/data-raw".
