@@ -32,8 +32,6 @@ knitr::opts_chunk$set(
 
 ## FONTE DOS DADOS
 
-*Ressalta-se que todos os dados foram baixados para o período de 2015 (se possível) até a última data disponível (ou 01/01/2025), desse modo, faz-se necessária a filtragem para o período 2015-2023, de modo a coincidir com o período em análise*
-
 ### Relatórios Climate TRACE
 
 Dados baixados para o Brasil, para todo o período (2015-2024), em CO2e 100 anos, no dia 15/01/2025.
@@ -99,5 +97,7 @@ Satélite referência - AQUA/MODIS
 #### PRODES
 
 Dados baixados para o Brasil, para todo o período (31/07/2000-30/07/2023), no dia 16/01/2025.
+
+Mais informações no link: <https://terrabrasilis.dpi.inpe.br/geonetwork/srv/eng/catalog.search#/metadata/fe02f2bf-2cc0-49d5-ab72-a3954f997408>
 
 Dados salvos na pasta "desmatamento_prodes/data-raw".
