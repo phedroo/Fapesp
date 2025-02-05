@@ -121,7 +121,7 @@ power_data_download <- function(lon,lat, startdate, enddate){
     dates = c(startdate,enddate),
     temporal_api = 'daily'
   )
-  write.csv(df, paste0('temp_prec_rad',lon,'_',lat,'.csv'))
+  write.csv(df, paste0('data-raw/nasa_power/prec_temp_rad',lon,'_',lat,'.csv'))
 }
 
 ### CT data download
