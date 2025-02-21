@@ -1,3 +1,5 @@
+# Script adaptado de: <https://github.com/lm-costa/curso-gp-01-aquisicao>
+
 library(tidyverse)
 library(geobr)
 library(nasapower)
