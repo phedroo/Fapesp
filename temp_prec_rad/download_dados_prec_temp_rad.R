@@ -48,7 +48,7 @@ for (i in 1:nrow(df_coords)) {
     dw <- try(
       power_data_download(df_coords$lon[i], df_coords$lat[i],
                           startdate = '2015-01-01',
-                          enddate = '2015-01-01')
+                          enddate = '2024-01-01')
     )
     if (!(inherits(dw, "try-error")))
       break
@@ -63,8 +63,10 @@ df_final <- map_dfr(files_names, read.csv)
 # Salvar o banco de dados final
 readr::write_csv(df_final, 'data/dados_nasapower.csv')
 
+# ------------------- RODAR ATÉ AQUI ----------------------------------
 
 #######################
+
 # Visualizar
 
 print(estados)

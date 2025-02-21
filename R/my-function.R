@@ -105,19 +105,28 @@ get_geobr_state <- function(x,y){
 # 
 # 
 # 
-# # function to read a file
-# my_file_read <- function(sector_name){
-#   read.csv(sector_name) %>%
-#     select(!starts_with("other")) %>%
-#     mutate(directory = sector_name)
-# }
+# Função para leitura de arquivos
+my_file_read <- function(sector_name){
+  read.csv(sector_name) %>%
+    select(!starts_with("other")) %>%
+    mutate(directory = sector_name)
+}
 
-### rainfall data download
+### Download dos dados de precipitação
+
+## Glossário de parâmetros/variáveis nasapower e mais informações: 
+## <https://power.larc.nasa.gov/beta/parameters/>
+
+## Precipitação Corrigida (mm, PRECTOTCORR)
+## Irradiância solar de onda curta na superfície de todo o céu (W m−2 dia−1, no projeto: MJ m-2 dia-1. All Sky Surface Shortwave Downward Irradiance) 
+## Temperatura média do ar (ºC, Temperature at 2 Meters, T2M)
+## Umidade relativa a 2 m (%, Relative Humidity at 2 Meters, RH2M)
+
 power_data_download <- function(lon,lat, startdate, enddate){
   df <- nasapower::get_power(
     community = 'ag',
     lonlat = c(lon,lat),
-    pars = c('ALLSKY_SFC_SW_DWN','T2M','PRECTOTCORR'),
+    pars = c('ALLSKY_SFC_SW_DWN','T2M','PRECTOTCORR', 'RH2M'), #sigla das variáveis
     dates = c(startdate,enddate),
     temporal_api = 'daily'
   )
@@ -128,4 +137,106 @@ power_data_download <- function(lon,lat, startdate, enddate){
 download_arquivo <- function(url, dir){
   download.file(url, dir)
   return(dir)
+}
+
+### Funcao para download e extracao dados oco2
+
+## https://github.com/lm-costa/curso-gp-01-aquisicao/blob/master/R/my-functions.R
+
+#' Função utilizada para extração de colunas
+#' específicas de arquivo ncdf4 para xco2
+my_ncdf4_extractor <- function(ncdf4_file){
+  data_frame_name <- ncdf4::nc_open(ncdf4_file)
+  if(data_frame_name$ndims!=0){
+    dft <- data.frame(
+      "longitude"=ncdf4::ncvar_get(data_frame_name,varid="longitude"),
+      "latitude"=ncdf4::ncvar_get(data_frame_name,varid="latitude"),
+      "time"=ncdf4::ncvar_get(data_frame_name,varid="time"),
+      "xco2"=ncdf4::ncvar_get(data_frame_name,varid="xco2"),
+      "xco2_quality_flag"=ncdf4::ncvar_get(data_frame_name,varid="xco2_quality_flag"),
+      "xco2_incerteza"=ncdf4::ncvar_get(data_frame_name,varid="xco2_uncertainty")
+    ) |>
+      dplyr::filter(xco2_quality_flag==0) |>
+      tibble::as_tibble()
+  }
+  ncdf4::nc_close(data_frame_name)
+  return(dft)
+}
+
+#' Função utilizada para downloads
+my_ncdf4_download <- function(url_unique,
+                              user="input your user",
+                              password="input your password"){
+  if(is.character(user)==TRUE & is.character(password)==TRUE){
+    n_split <- length(
+      stringr::str_split(url_unique,
+                         "/",
+                         simplify=TRUE))
+    filenames_nc <- stringr::str_split(url_unique,
+                                       "/",
+                                       simplify = TRUE)[,n_split]
+    repeat{
+      dw <- try(download.file(url_unique,
+                              paste0("data-raw/",filenames_nc),
+                              method="wget",
+                              extra= c(paste0("--user=", user,
+                                              " --password ",
+                                              password))
+      ))
+      if(!(inherits(dw,"try-error")))
+        break
+    }
+  }else{
+    print("seu usuário ou senha não é uma string")
+  }
+}
+
+# Função utilizada para extração de colunas
+# específicas de arquivo ncdf4 para xco2
+my_ncdf4_extractor <- function(ncdf4_file){
+  data_frame_name <- ncdf4::nc_open(ncdf4_file)
+  if(data_frame_name$ndims!=0){
+    dft <- data.frame(
+      "longitude"=ncdf4::ncvar_get(data_frame_name,varid="longitude"),
+      "latitude"=ncdf4::ncvar_get(data_frame_name,varid="latitude"),
+      "time"=ncdf4::ncvar_get(data_frame_name,varid="time"),
+      "xco2"=ncdf4::ncvar_get(data_frame_name,varid="xco2"),
+      "xco2_quality_flag"=ncdf4::ncvar_get(data_frame_name,varid="xco2_quality_flag"),
+      "xco2_incerteza"=ncdf4::ncvar_get(data_frame_name,varid="xco2_uncertainty")
+    ) |>
+      dplyr::filter(xco2_quality_flag==0) |>
+      dplyr::filter(longitude < -30,longitude > -75,
+                    latitude < 7, latitude > -35) |> 
+      tibble::as_tibble()
+  }
+  ncdf4::nc_close(data_frame_name)
+  return(dft)
+}
+
+# Função utilizada para downloads
+my_ncdf4_download <- function(url_unique,
+                              user="input your user",
+                              password="input your password"){
+  if(is.character(user)==TRUE & is.character(password)==TRUE){
+    n_split <- length(
+      stringr::str_split(url_unique,
+                         "/",
+                         simplify=TRUE))
+    filenames_nc <- stringr::str_split(url_unique,
+                                       "/",
+                                       simplify = TRUE)[,n_split]
+    repeat{
+      dw <- try(download.file(url_unique,
+                              paste0("data-raw/",filenames_nc),
+                              method="wget",
+                              extra= c(paste0("--user=", user,
+                                              " --password ",
+                                              password))
+      ))
+      if(!(inherits(dw,"try-error")))
+        break
+    }
+  }else{
+    print("seu usuário ou senha não é uma string")
+  }
 }
