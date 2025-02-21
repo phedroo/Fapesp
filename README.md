@@ -7,7 +7,9 @@ Autor: Pedro Henrique Marucio
 
 Orientador: Prof. Dr. Alan Rodrigo Panosso
 
-Data: 01/12/2024
+Processo: 2024/12884-5
+
+Período de vigência: 01/12/2024 a 30/11/2025
 
 ## OBJETIVO
 Analisar a variabilidade espaçotemporal das concentrações atmosféricas 
