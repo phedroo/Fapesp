@@ -1,12 +1,12 @@
 
 # Fapesp
----
+
 title: PROJETO FAPESP - Modelagem Computacional da Concentração 
 Atmosférica de CO2 e CH4 no Brasil Central
 author: "Pedro Henrique Marucio"
 date: "2025-01-14"
 output: html_document
----
+
 ## OBJETIVO
 Analisar a variabilidade espaçotemporal das concentrações atmosféricas 
 de CO2 e CH4 em áreas do Brasil Central, identificando fontes e 
