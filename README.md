@@ -1,6 +1,5 @@
 
 # Fapesp
-¹
 ---
 title: PROJETO FAPESP - Modelagem Computacional da Concentração 
 Atmosférica de CO2 e CH4 no Brasil Central
@@ -8,17 +7,13 @@ author: "Pedro Henrique Marucio"
 date: "2025-01-14"
 output: html_document
 ---
-
 ## OBJETIVO
-
 Analisar a variabilidade espaçotemporal das concentrações atmosféricas 
 de CO2 e CH4 em áreas do Brasil Central, identificando fontes e 
 possíveis sumidouros desses gases ao longo dos anos de 2015 a 
 2023, bem como suas relações com índices vegetativos e 
 climáticos, por meio de dados de GOSAT, OCO-2 e Climate TRACE.
-
 ## ORGANIZAÇÃO DO DOCUMENTO Rmd GERADO
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -26,10 +21,8 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE
 )
-
 ```
 ## CARREGANDO OS PACOTES E FUNÇÕES NECESSÁRIAS
-
 ```{r}
 library(tidyverse)
 library(dplyr)
@@ -38,7 +31,6 @@ library(geobr)
 library(sf)
 source('../R/my-function.R')
 ```
-
 ##### echo = T
 
 *O código será mostrado no documento final.*
