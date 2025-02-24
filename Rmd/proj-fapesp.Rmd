@@ -242,6 +242,7 @@ No painel contendo os arquivos desejados (direito inferior), selecione os arquiv
 
 Por fim, as pastas serão baixadas para o diretório selecionado.
 
+
 Produtos FTS-2 Nível 2 (FTS-2 L1B):  
   Produtos "Fração molar de ar seco média em coluna" armazenam fração molar de ar seco média em coluna de gases atmosféricos recuperados usando dados de radiância espectral de Banda 1-3 em TANSO-FTS-2 L1B; Produtos "Método de fluorescência e proxy de clorofila (FTS-2_02_SWPR)" armazenam dados de fluorescência de clorofila induzida solar recuperados de dados de radiância espectral de Banda 1 em Produto L1B, bem como fração molar de ar seco média em coluna de gases atmosféricos recuperados de dados de radiância espectral de Banda 2 e 3 em Produto L1B. Ambos os produtos são obtidos usando o método de preenchimento físico máximo a posteriori (MAP) e sob a suposição de condições de céu limpo
   
