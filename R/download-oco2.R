@@ -26,8 +26,8 @@ my_ncdf4_download(urls[1,1],
 # demora
 tictoc::tic()
 purrr::pmap(list(urls[1:3,1],
-                 "Pedrick",
-                 "050520047504Pedrickm*nasa"),
+                 "usuário",
+                 "sua senha"),
             my_ncdf4_download)
 tictoc::toc()
 
@@ -37,12 +37,12 @@ tictoc::toc()
 future::plan("multisession")
 tictoc::tic()
 furrr::future_pmap(list(urls[1:3,1],
-                        "input your user",
-                        "your password"),
+                        "usuário",
+                        "sua senha"),
                    my_ncdf4_download)
 tictoc::toc()
 
 # Vamos fazer o download de todos
 tictoc::tic()
-furrr::future_pmap(list(urls[,1],"Pedrick","050520047504Pedrickm*nasa"),my_ncdf4_download)
+furrr::future_pmap(list(urls[,1],"usuário","sua senha"),my_ncdf4_download)
 tictoc::toc()
