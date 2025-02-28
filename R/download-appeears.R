@@ -6,7 +6,7 @@ library(httr)
 library(jsonlite)
 
 # Login
-secret <- base64_enc(paste("SEU_USUÁRIO", "SUA_SENHA", sep = ":"))
+secret <- base64_enc(paste("usuario", "senha", sep = ":"))
 response <- POST("https://appeears.earthdatacloud.nasa.gov/api/login", 
                  add_headers("Authorization" = paste("Basic", gsub("\n", "", secret)),
                              "Content-Type" = "application/x-www-form-urlencoded;charset=UTF-8"), 
@@ -17,35 +17,31 @@ token_response
 # Defina seu token de autenticação 
 token <- paste("Bearer", fromJSON(token_response)$token)
 
-# Defina seu token de autenticação manualmente
-# token <- "SEU_TOKEN" # Substitua pelo seu token
+# Defina seu token de autenticação manualmente (gerado em token_response), em caso de erro
+token <- "qEA8cfxG6MlCtkTU4d02zlzPH8i87LaCe3X4U0lAYHpUqveDgSVbryBVhRTqybkmTs1DIrhbbcE49gnMWlQBkA" # Substitua pelo seu token
 
 # Sair (fechar token, se necessário)
-response <- POST("https://appeears.earthdatacloud.nasa.gov/api/logout",
-                 add_headers(Authorization = token,
-                             "Content-Type" = "application/x-www-form-urlencoded;charset=UTF-8"),
-                 body = "grant_type=client_credentials")
-response$status_code
+# response <- POST("https://appeears.earthdatacloud.nasa.gov/api/logout",
+#                  add_headers(Authorization = token,
+#                              "Content-Type" = "application/x-www-form-urlencoded;charset=UTF-8"),
+#                  body = "grant_type=client_credentials")
+# response$status_code
 
+# Carregando bibliotecas
 library(httr)
 library(jsonlite)
 
-# Definir o token de autenticação
-token <- "iL6It8_nvl-YJw8e_-kOMC8ZLYBoA81_B1h-YGJ7iCDu9AtTe_-zW66jyoXU1d-EQoWt5xven6PTnfrVG09_LQ" # Substitua pelo seu token
-
+# Parâmetros para requisição
 request_body <- list(
-  task_name = "BR Central MODIS",
+  task_name = "MT MS GO MODIS",
   task_type = "area",
   params = list(
     layers = list( # Sensor MODIS TERRA
-      list(product = "MOD13Q1.061", layer ="_250m_16_days_NDVI"),
-      list(product ="MOD13Q1.061", layer ="_250m_16_days_EVI"),
-      list(product ="MOD15A2H.061", layer ="Fpar_500m"), # PAR
-      list(product ="MOD15A2H.061", layer ="Lai_500m"), # IAF
-      # list(product ="MOD15A2H.061", layer ="FparLai_QC"), # Qualidade de dados IAF e PAR
-      list(product ="MOD16A2.061", layer ="ET_500m") # Evapotranspiração total
-      # list(product ="MOD16A2.061", layer ="ET_QC_500m") #Qualidade dos dados de Evapotranspiração total
-      # list(product ="", layer =""),
+      list(product = "MOD13Q1.061", layer = "_250m_16_days_NDVI"),
+      list(product = "MOD13Q1.061", layer = "_250m_16_days_EVI"),
+      list(product = "MOD15A2H.061", layer = "Fpar_500m"), # PAR
+      list(product = "MOD15A2H.061", layer = "Lai_500m"), # IAF
+      list(product = "MOD16A2.061", layer = "ET_500m") # Evapotranspiração total
     ),
     dates = list(
       list(
@@ -70,11 +66,11 @@ request_body <- list(
             type = "Polygon",
             coordinates = list(
               list(
-                c(-60, -10), # Coordenadas aproximadas para Brasil Central
-                c(-50, -10),
-                c(-50, -20),
-                c(-60, -20),
-                c(-60, -10)
+                c(-61.5, -24.5), # Canto inferior esquerdo
+                c(-46.5, -24.5), # Canto inferior direito
+                c(-46.5, -13.5), # Canto superior direito
+                c(-61.5, -13.5), # Canto superior esquerdo
+                c(-61.5, -24.5)  # Fechar o polígono
               )
             )
           )
@@ -84,12 +80,8 @@ request_body <- list(
   )
 )
 
-# Mais informações sobre os produtos e camadas do sensor MODIS:
-# <https://appeears.earthdatacloud.nasa.gov/products>
-
-
 # Converter para JSON corretamente
-request_json <- toJSON(request_body, auto_unbox = TRUE)
+request_json <- toJSON(request_body, auto_unbox = TRUE, pretty = TRUE)
 
 # Enviar a requisição
 response <- POST(
@@ -104,7 +96,7 @@ print(response_content)
 
 
 # Monitorar status da requisição 
-task_id <- "e0ac386e-a011-48f1-9618-37d75210d5bf"  # Substitua pelo task_id retornado na resposta anterior
+task_id <- "5937311e-ad2c-4cc4-a710-9f7ba551b444"  # Substitua pelo task_id retornado na resposta anterior
 
 status_response <- GET(
   url = paste0("https://appeears.earthdatacloud.nasa.gov/api/task/", task_id),
