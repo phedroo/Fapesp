@@ -18,7 +18,7 @@ token_response
 # token <- paste("Bearer", fromJSON(token_response)$token)
 
 # Defina seu token de autenticação manualmente (gerado em token_response), em caso de erro
-token <- "dVovO07cVOX0d1z2RiQgJtCFAU1Pi5VIXRV1r91ON5_g0dmeOisSSZ6BosqcN92UGhk5VhdtlQyO_lgWbDr0Iw" # Substitua pelo seu token
+token <- "seu_token" # Substitua pelo seu token
 
 # Sair (fechar token, se necessário)
 # response <- POST("https://appeears.earthdatacloud.nasa.gov/api/logout",
@@ -96,7 +96,7 @@ print(response_content)
 
 
 # Monitorar status da requisição 
-task_id <- "84a2e785-7668-47a1-8ac6-e9abea6c7547"  # Substitua pelo task_id retornado na resposta anterior
+task_id <- "seu-task_id"  # Substitua pelo task_id retornado na resposta anterior
 
 status_response <- GET(
   url = paste0("https://appeears.earthdatacloud.nasa.gov/api/task/", task_id),
