@@ -15,10 +15,10 @@ token_response <- prettify(toJSON(content(response), auto_unbox = TRUE))
 token_response
 
 # Defina seu token de autenticação 
-token <- paste("Bearer", fromJSON(token_response)$token)
+# token <- paste("Bearer", fromJSON(token_response)$token)
 
 # Defina seu token de autenticação manualmente (gerado em token_response), em caso de erro
-token <- "qEA8cfxG6MlCtkTU4d02zlzPH8i87LaCe3X4U0lAYHpUqveDgSVbryBVhRTqybkmTs1DIrhbbcE49gnMWlQBkA" # Substitua pelo seu token
+token <- "dVovO07cVOX0d1z2RiQgJtCFAU1Pi5VIXRV1r91ON5_g0dmeOisSSZ6BosqcN92UGhk5VhdtlQyO_lgWbDr0Iw" # Substitua pelo seu token
 
 # Sair (fechar token, se necessário)
 # response <- POST("https://appeears.earthdatacloud.nasa.gov/api/logout",
@@ -66,11 +66,11 @@ request_body <- list(
             type = "Polygon",
             coordinates = list(
               list(
-                c(-61.5, -24.5), # Canto inferior esquerdo
-                c(-46.5, -24.5), # Canto inferior direito
-                c(-46.5, -13.5), # Canto superior direito
-                c(-61.5, -13.5), # Canto superior esquerdo
-                c(-61.5, -24.5)  # Fechar o polígono
+                c(-62, -7), # Canto superior esquerdo
+                c(-62, -25), # Canto inferior esquerdo
+                c(-45, -25), # Canto inferior direito
+                c(-45, -7), # Canto superior direito
+                c(-62, -7)  # Fechar o polígono
               )
             )
           )
@@ -96,7 +96,7 @@ print(response_content)
 
 
 # Monitorar status da requisição 
-task_id <- "5937311e-ad2c-4cc4-a710-9f7ba551b444"  # Substitua pelo task_id retornado na resposta anterior
+task_id <- "84a2e785-7668-47a1-8ac6-e9abea6c7547"  # Substitua pelo task_id retornado na resposta anterior
 
 status_response <- GET(
   url = paste0("https://appeears.earthdatacloud.nasa.gov/api/task/", task_id),
@@ -116,6 +116,11 @@ response <- GET(paste("https://appeears.earthdatacloud.nasa.gov/api/task/", task
 task_response <- prettify(toJSON(content(response), auto_unbox = TRUE))
 task_response
 
+# Download 
+# (pode ser realizado diretamente pelo site, informado no e-mail)
+# <https://appeears.earthdatacloud.nasa.gov>
+
+# OU:
 # Substitua "URL_DO_ARQUIVO" pela URL do arquivo NetCDF retornada na resposta anterior
 download_url <- "URL_DO_ARQUIVO"
 download.file(download_url, "modis_brasil_central.nc", mode = "wb")
