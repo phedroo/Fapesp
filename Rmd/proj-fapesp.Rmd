@@ -74,6 +74,8 @@ Dados salvos na pasta data-raw ("firms_nasa").
 
 #### BDQUEIMADAS
 
+BDQueimadas fornece acesso ao acervo de focos de fogo de todos os satélites recebidos pelo INPE desde 1998 com imagens, dados meteorológicos e limites políticos oficiais.
+
 Dados requisitados no link <https://terrabrasilis.dpi.inpe.br/queimadas/bdqueimadas/#exportar-dados>
 
 Atributos dos dados solicitados:
@@ -82,15 +84,15 @@ América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua/MODIS)
 
 Dados salvos na pasta data-raw ("focos_deter_bdqueimadas").
 
-#### DETER
+#### DETER (*revisar isso --> DETER não tem Brasil todo)
 
 ##### BR
 
-Dados de focos de fogo do período de 08/2018 a 01/2025 para o Brasil adquiridos no link: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_deter" como "br-18-24"
+Dados de focos de fogo do período de 08/2018 a 01/2025 para o Brasil adquiridos na plataforma TerraBrasilis, do INPE: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_deter" como "br-18-24"
 
 Satélite referência - AQUA/MODIS
 
-##### Estados BRCentral
+##### Estados BRCentral (Programa Queimadas, INPE)
 
 Dados de focos de fogo ativo para os estados do Brasil Central (Goiás, MT e MS) desde 1998 a 21/01/2025 no link: <https://terrabrasilis.dpi.inpe.br/queimadas/situacao-atual/estatisticas/estatisticas_estados/>
 
@@ -104,7 +106,7 @@ Satélite referência - AQUA/MODIS
 
 #### PRODES
 
-Dados baixados para o Brasil, para todo o período (31/07/2000-30/07/2023), no dia 16/01/2025.
+Dados baixados para o Brasil, para todo o período (31/07/2000 a 30/07/2023), no dia 16/01/2025.
 
 Mais informações no link: <https://terrabrasilis.dpi.inpe.br/geonetwork/srv/eng/catalog.search#/metadata/fe02f2bf-2cc0-49d5-ab72-a3954f997408>
 
@@ -112,7 +114,7 @@ Dados salvos na pasta "data-raw/desmatamento_prodes".
 
 ## Variáveis climáticas, dados do nasapower 
 
-### <https://power.larc.nasa.gov/>
+<https://power.larc.nasa.gov/>
 
 ### Temperatura (T2M), precipitação (PRECTOTCORR), radiação solar (ALLSKY) e umidade relativa a 2 m (RH2M)
 
@@ -127,7 +129,7 @@ Código no script "download_dados_prec_temp_rad" e funções no "my_function"
 # df_nasa <- read_csv('../data/dados_nasapower.csv')
 ```
 
-## Aquisição dados XCO2 e SIF do satélite OCO-2 (GESDISC)
+## Aquisição de dados XCO2 e SIF do satélite OCO-2 (GESDISC)
 
 Acesso no link: <https://disc.gsfc.nasa.gov>
 
@@ -245,5 +247,14 @@ Por fim, as pastas serão baixadas para o diretório selecionado.
 
 Produtos FTS-2 Nível 2 (FTS-2 L1B):  
   Produtos "Fração molar de ar seco média em coluna" armazenam fração molar de ar seco média em coluna de gases atmosféricos recuperados usando dados de radiância espectral de Banda 1-3 em TANSO-FTS-2 L1B; Produtos "Método de fluorescência e proxy de clorofila (FTS-2_02_SWPR)" armazenam dados de fluorescência de clorofila induzida solar recuperados de dados de radiância espectral de Banda 1 em Produto L1B, bem como fração molar de ar seco média em coluna de gases atmosféricos recuperados de dados de radiância espectral de Banda 2 e 3 em Produto L1B. Ambos os produtos são obtidos usando o método de preenchimento físico máximo a posteriori (MAP) e sob a suposição de condições de céu limpo
-  
+
+## Aquisição dos dados de __ do satélite AppEEARS
+
+Área selecionada: Área que recobre o BR Central
+
+Período: 01/01/2015 a 01/01/2024
+
+Formato do arquivo: nc
+
+Projeção: Nativa
   
