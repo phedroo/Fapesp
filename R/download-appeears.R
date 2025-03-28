@@ -40,7 +40,7 @@ request_body <- list(
       list(product = "MOD13Q1.061", layer = "_250m_16_days_NDVI"),
       list(product = "MOD13Q1.061", layer = "_250m_16_days_EVI"),
       list(product = "MOD15A2H.061", layer = "Fpar_500m"), # PAR
-      list(product = "MOD15A2H.061", layer = "Lai_500m"), # IAF
+      list(product = "MOD15A2H.061", layer = "Lai_500m"), # IAF 
       list(product = "MOD16A2.061", layer = "ET_500m") # Evapotranspiração total
     ),
     dates = list(
@@ -117,7 +117,7 @@ task_response <- prettify(toJSON(content(response), auto_unbox = TRUE))
 task_response
 
 # Download 
-# (pode ser realizado diretamente pelo site, informado no e-mail)
+# (Realizado diretamente pelo site, informado no e-mail recebido)
 # <https://appeears.earthdatacloud.nasa.gov>
 
 # OU:
