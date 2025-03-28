@@ -57,7 +57,7 @@ for (i in 1:nrow(df_coords)) {
   }
 }
 
-# Criar df com os arquivos baixados
+# Criar banco de dados com os arquivos baixados
 files_names <- list.files('data-raw/nasa_power', full.names = TRUE)
 
 df_final <- map_dfr(files_names, read.csv)
@@ -120,6 +120,11 @@ for (i in 1:length(files_names)){
 
 
 # readr::write_rds(df,'precipitation/data/nasa_power_data.rds')
+
+# ----------------- RODAR ATÉ AQUI -------------
+
+
+
 
 ###
 # Carregar pacotes necessários
