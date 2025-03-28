@@ -82,21 +82,47 @@ Atributos dos dados solicitados:
 
 América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua/MODIS), todos os biomas, período de 01/01/2015 a 01/01/2025 (período solicitado ano a ano, em razão do limite estabelecido pela plataforma), e-mail institucional, formato ".csv".
 
-Dados salvos na pasta data-raw ("focos_deter_bdqueimadas").
+Dados salvos na pasta data-raw ("focos_bdqueimadas").
 
-#### DETER (*revisar isso --> DETER não tem Brasil todo)
+#### DETER (ALB e Cerrado) *Não encontrei dados de focos de fogo para Cerrado
+
+*Não existem dados deter para PANTANAL. Seriam necessários, visto que abrange boa parte do Brasil Central. Como proceder????
+
+Dados adquiridos em <https://terrabrasilis.dpi.inpe.br/downloads/> (página contém o metadados)
+
+Satélite: Landsat ou similares
+
+Mais informações: <http://www.obt.inpe.br/OBT/assuntos/programas/amazonia/deter/deter>
+
+##### CERRADO
+
+Dados de 30/04/2018 a 30/04/2020;
+
+Classe de interesse: (?)
+
+Mais informações: <https://terrabrasilis.dpi.inpe.br/geonetwork/srv/eng/catalog.search#/metadata/e6e15388-4ca9-49b9-aec9-03891339a35e>
+
+##### AMAZÔNIA LEGAL BRASILEIRA
+
+Dados de Agosto de 2016 até 2023 (?)
+
+Classe de degradação de interesse: Cicatriz de incêndio florestal: é caracterizada pela presença de áreas atingidas por fogo, podendo ou não haver vegetação arbórea. Nome da coluna: "classname", linha: "CICATRIZ_DE_QUEIMADA"
+
+Mais informações: <https://terrabrasilis.dpi.inpe.br/geonetwork/srv/por/catalog.search#/metadata/f2153c4a-915b-48a6-8658-963bdce7366c>
+
+##### Estados BRCentral (Programa Queimadas, INPE)
 
 ##### BR
 
-Dados de focos de fogo do período de 08/2018 a 01/2025 para o Brasil adquiridos na plataforma TerraBrasilis, do INPE: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_deter" como "br-18-24"
+Dados de focos de queimadas x Supressão da vegetação nativa do período de 08/2018 a 01/2025 para o Brasil adquiridos na plataforma TerraBrasilis, do INPE: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_deter" como "br-18-24"
 
 Satélite referência - AQUA/MODIS
-
-##### Estados BRCentral (Programa Queimadas, INPE)
 
 Dados de focos de fogo ativo para os estados do Brasil Central (Goiás, MT e MS) desde 1998 a 21/01/2025 no link: <https://terrabrasilis.dpi.inpe.br/queimadas/situacao-atual/estatisticas/estatisticas_estados/>
 
 Dados salvos em .csv na pasta "data-raw/focos_deter" como "brgo", "brmt" e "brms"
+Dados totais para o centro-oeste: salvos em .csv na pasta 
+"data-raw/focos_deter" como "centro-oeste"
 
 Satélite referência - AQUA/MODIS
 
@@ -123,7 +149,9 @@ Processamento dos dados por API
 Dados diários para o período de 01/01/2015 a 01/01/2024, para a região do
 Brasil Central (MS, MT e GO)
 
-Código no script "download_dados_prec_temp_rad" e funções no "my_function"
+Código na pasta "t_p_r_u", no script "download_dados_prec_temp_rad_umid" e funções no "my_function"
+
+Dados salvos como "dados_nasapower.csv" na pasta "data" do projeto
 
 ```{r}
 # df_nasa <- read_csv('../data/dados_nasapower.csv')
@@ -248,13 +276,26 @@ Por fim, as pastas serão baixadas para o diretório selecionado.
 Produtos FTS-2 Nível 2 (FTS-2 L1B):  
   Produtos "Fração molar de ar seco média em coluna" armazenam fração molar de ar seco média em coluna de gases atmosféricos recuperados usando dados de radiância espectral de Banda 1-3 em TANSO-FTS-2 L1B; Produtos "Método de fluorescência e proxy de clorofila (FTS-2_02_SWPR)" armazenam dados de fluorescência de clorofila induzida solar recuperados de dados de radiância espectral de Banda 1 em Produto L1B, bem como fração molar de ar seco média em coluna de gases atmosféricos recuperados de dados de radiância espectral de Banda 2 e 3 em Produto L1B. Ambos os produtos são obtidos usando o método de preenchimento físico máximo a posteriori (MAP) e sob a suposição de condições de céu limpo
 
-## Aquisição dos dados de __ do satélite AppEEARS
+## AppEEARS - Aquisição dos dados de ET, EVI, FPAR, LAI e NDVI.  
 
-Área selecionada: Área que recobre o BR Central
+ET = Evapotranspiração
+
+EVI = Enhanced Vegetation Index
+
+Fpar = Fração da Radiação Fotossinteticamente Ativa 
+
+Lai = Índice de Área Foliar (Leaf Area Index)
+
+NDVI = Índice de Vegetação por Diferença Normalizada 
+
+Área selecionada: Área (quadrado) que recobre o BR Central
 
 Período: 01/01/2015 a 01/01/2024
 
 Formato do arquivo: nc
 
 Projeção: Nativa
+
+Dados salvos na pasta "data-raw/appeears". 
   
+Arquivos auxiliares: <https://appeears.earthdatacloud.nasa.gov/download/84a2e785-7668-47a1-8ac6-e9abea6c7547>
