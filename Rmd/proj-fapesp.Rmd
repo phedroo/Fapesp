@@ -84,13 +84,15 @@ América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua/MODIS)
 
 Dados salvos na pasta data-raw ("focos_bdqueimadas").
 
-#### DETER (ALB e Cerrado) *Não encontrei dados de focos de fogo para Cerrado
+#### DETER (ALB e Cerrado) *Não encontrei dados de focos de fogo (cicatriz de queimadas) para Cerrado
 
-*Não existem dados deter para PANTANAL. Seriam necessários, visto que abrange boa parte do Brasil Central. Como proceder????
+*PANTANAL: Dados somente a partir de agosto de 2023. Como proceder????
 
 Dados adquiridos em <https://terrabrasilis.dpi.inpe.br/downloads/> (página contém o metadados)
 
-Satélite: Landsat ou similares
+Satélite ALB e Cerrado: Landsat ou similares
+
+Satélite Pantanal: Amazonia1, CBERS4 ou similares
 
 Mais informações: <http://www.obt.inpe.br/OBT/assuntos/programas/amazonia/deter/deter>
 
@@ -110,19 +112,19 @@ Classe de degradação de interesse: Cicatriz de incêndio florestal: é caracte
 
 Mais informações: <https://terrabrasilis.dpi.inpe.br/geonetwork/srv/por/catalog.search#/metadata/f2153c4a-915b-48a6-8658-963bdce7366c>
 
-##### Estados BRCentral (Programa Queimadas, INPE)
+#### Estados BRCentral (Programa Queimadas, INPE)
 
 ##### BR
 
-Dados de focos de queimadas x Supressão da vegetação nativa do período de 08/2018 a 01/2025 para o Brasil adquiridos na plataforma TerraBrasilis, do INPE: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_deter" como "br-18-24"
+Dados de focos de queimadas x Supressão da vegetação nativa do período de 08/2018 a 01/2025 para o Brasil adquiridos na plataforma TerraBrasilis, do INPE: <https://terrabrasilis.dpi.inpe.br/app/dashboard/fires/biomes/aggregated/#> Dados salvos em .csv na pasta "data-raw/focos_programas_queimadas" como "br-18-24"
 
 Satélite referência - AQUA/MODIS
 
 Dados de focos de fogo ativo para os estados do Brasil Central (Goiás, MT e MS) desde 1998 a 21/01/2025 no link: <https://terrabrasilis.dpi.inpe.br/queimadas/situacao-atual/estatisticas/estatisticas_estados/>
 
-Dados salvos em .csv na pasta "data-raw/focos_deter" como "brgo", "brmt" e "brms"
+Dados salvos em .csv na pasta "data-raw/focos_programas_queimadas" como "brgo", "brmt" e "brms"
 Dados totais para o centro-oeste: salvos em .csv na pasta 
-"data-raw/focos_deter" como "centro-oeste"
+"data-raw/focos_programas_queimadas" como "centro-oeste"
 
 Satélite referência - AQUA/MODIS
 
@@ -142,14 +144,14 @@ Dados salvos na pasta "data-raw/desmatamento_prodes".
 
 <https://power.larc.nasa.gov/>
 
-### Temperatura (T2M), precipitação (PRECTOTCORR), radiação solar (ALLSKY) e umidade relativa a 2 m (RH2M)
+### Temperatura (T2M), precipitação (PRECTOTCORR), radiação solar (ALLSKY) e umidade relativa a 2 m (RH2M), velocidade do vento a 2 metros (WS2M) e pressão na superfície (PS)
 
 Processamento dos dados por API
 
 Dados diários para o período de 01/01/2015 a 01/01/2024, para a região do
 Brasil Central (MS, MT e GO)
 
-Código na pasta "t_p_r_u", no script "download_dados_prec_temp_rad_umid" e funções no "my_function"
+Código na pasta "tpruvp", no script "download_dados_prec_temp_rad_umid" e funções no "my_function"
 
 Dados salvos como "dados_nasapower.csv" na pasta "data" do projeto
 
