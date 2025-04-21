@@ -314,6 +314,8 @@ foram solicitadas as primeiras
 3. Solicitadas 999 para EVI e NDVI (único arquivo csv)
 4. Solicitadas as coordenadas restantes para todas as camadas anteriores (único arquivo csv)
 
+Extração das coordenadas do CT em "extrair_coord_CT.R" na pasta "R"
+
 Tratamento dos dados no script "ler-appeears.R" na pasta "R" do projeto
 
 Dados tratados baixados e salvos em: "data/appeears.csv"
