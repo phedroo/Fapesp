@@ -27,3 +27,6 @@ appeears <- appeears |>
 # Visualizar dados
 glimpse(appeears)
 View(appeears)
+
+# Gerar arquivo com os dados
+write.csv(appeears, 'data/appeears.csv')
