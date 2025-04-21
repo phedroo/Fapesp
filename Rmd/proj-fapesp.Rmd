@@ -144,7 +144,9 @@ Dados salvos na pasta "data-raw/desmatamento_prodes".
 
 <https://power.larc.nasa.gov/>
 
-### Temperatura (T2M), precipitação (PRECTOTCORR), radiação solar (ALLSKY) e umidade relativa a 2 m (RH2M), velocidade do vento a 2 metros (WS2M) e pressão na superfície (PS)
+### Temperatura (T2M), precipitação (PRECTOTCORR), radiação solar (ALLSKY) e umidade relativa a 2 m (RH2M), velocidade do vento a 2 metros (WS2M) e pressão na superfície (PS).
+
+WS2M e PS não baixados (erro no código) - arquivo incompelto nao contem estes
 
 Processamento dos dados por API
 
@@ -192,8 +194,6 @@ Dados serão baixados para todo o Brasil, para o período de 01/01/2015 a 01/01/
 Resolução espacial dos dados: 2,25 km x 1,29 km 
 
 Resolução temporal dos dados: 16 dias
-
-
 
 ## Aquisição dos dados XCH4 do satélite GOSAT
 
@@ -301,3 +301,19 @@ Projeção: Nativa
 Dados salvos na pasta "data-raw/appeears". 
   
 Arquivos auxiliares: <https://appeears.earthdatacloud.nasa.gov/download/84a2e785-7668-47a1-8ac6-e9abea6c7547>
+
+Nova requisição de dados AppEEARS realizada pelas coordenadas extraídas do 
+Climate TRACE para os municípios do Brasil Central
+
+Os arquivos foram requisitados em 4 etapas:
+Após extraidas as coordenadas do Climate TRACE (cerca de 1150),
+foram solicitadas as primeiras
+999 (requisição do appeears não aceita mais que 1000),
+1. Solicitadas 999 para ET
+2. Solicitadas 999 para Fpar e Lai
+3. Solicitadas 999 para EVI e NDVI (único arquivo csv)
+4. Solicitadas as coordenadas restantes para todas as camadas anteriores (único arquivo csv)
+
+Tratamento dos dados no script "ler-appeears.R" na pasta "R" do projeto
+
+Dados tratados baixados e salvos em: "data/appeears.csv"
