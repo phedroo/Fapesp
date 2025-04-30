@@ -300,7 +300,9 @@ Projeção: Nativa
 
 Dados salvos na pasta "data-raw/appeears". 
   
-Arquivos auxiliares: <https://appeears.earthdatacloud.nasa.gov/download/84a2e785-7668-47a1-8ac6-e9abea6c7547>
+Arquivos auxiliares na pasta "data-raw/appeeaars/exemplo-requisicao"
+
+Produtos disponíveis: <https://appeears.earthdatacloud.nasa.gov/products>
 
 Nova requisição de dados AppEEARS realizada pelas coordenadas extraídas do 
 Climate TRACE para os municípios do Brasil Central
@@ -314,8 +316,6 @@ foram solicitadas as primeiras
 3. Solicitadas 999 para EVI e NDVI (único arquivo csv)
 4. Solicitadas as coordenadas restantes para todas as camadas anteriores (único arquivo csv)
 
-Extração das coordenadas do CT em "extrair_coord_CT.R" na pasta "R"
-
-Tratamento dos dados no script "ler-appeears.R" na pasta "R" do projeto
+Extração das coordenadas do CT e Tratamento dos dados no script "leitura-extracao-incorporacao-appeears.R" na pasta "R" do projeto
 
 Dados tratados baixados e salvos em: "data/appeears.csv"
