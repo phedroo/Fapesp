@@ -27,10 +27,6 @@ token <- "seu_token" # Substitua pelo seu token
 #                  body = "grant_type=client_credentials")
 # response$status_code
 
-# Carregando bibliotecas
-library(httr)
-library(jsonlite)
-
 # Parâmetros para requisição
 request_body <- list(
   task_name = "MT MS GO MODIS",
