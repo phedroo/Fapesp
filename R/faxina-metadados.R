@@ -315,15 +315,28 @@ write_rds(dados_sigla %>%
 
 
 # REALIZANDO FAXINA PARA PROJETO FAPESP - PEDRO (REDUZIR TAMANHO DO BANCO DE DADOS)
-# dados <- read_rds('data/emissions_sources.rds') |> 
-#   mutate(
-#     flag_indigenous = NULL,
-#     flag_conservation = NULL,
-#     source_id = NULL,
-#     iso3_country = NULL,
-#     capacity_factor = NULL,
-#     capacity_units = NULL,
-#     directory = NULL
-#   ) 
+ # dados <- read_rds('data/emissions_sources.rds') |>
+ #   mutate(
+ #     flag_indigenous = NULL,
+ #     flag_conservation = NULL,
+ #     source_id = NULL,
+ #     iso3_country = NULL,
+ #     capacity_factor = NULL,
+ #     capacity_units = NULL,
+ #     directory = NULL
+ #   ) |> 
+ #  filter(
+ #    nome_regiao == "Centro-Oeste"
+ #  )
 
-# write_rds(dados, "data/emissions_sources.rds")
+# dados |>
+#   pull(var = nome_regiao) |>
+#   unique() # Centro-Oeste - OK
+
+# dados |> 
+#   pull(
+#     var = sigla_uf
+#   ) |> 
+#   unique() # "GO" "MT" "MS" "DF" - OK
+
+ # write_rds(dados, "data/emissions_sources.rds")
