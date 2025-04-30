@@ -13,10 +13,10 @@ Analisar a variabilidade espaçotemporal das concentrações atmosféricas de CO
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-	echo = TRUE,
-	error = FALSE,
-	message = FALSE,
-	warning = FALSE
+	echo = TRUE, # O código será mostrado no documento final
+	error = FALSE, # Erros não apacererão no documento final
+	message = FALSE, # Mensagens não apacererãp no documento final
+	warning = FALSE # Avisos ão apacererão no documento final
 )
 
 ```
@@ -32,21 +32,17 @@ library(sf)
 source('../R/my-function.R')
 ```
 
-##### echo = T
-
-*O código será mostrado no documento final.*
-
-##### error = F, message = F, warning = F
-
-*Erros, mensagens e avisos não aparecerão no documento final*
-
 ## FONTE DOS DADOS
 
 ### Relatórios Climate TRACE
 
-Dados baixados para o Brasil, para todo o período (2015-2024), em CO2e 100 anos, no dia 15/01/2025.
+Dados baixados para o Brasil, para todo o período (2015-2022 e 2021-2024), em CO2e 100 anos, no dia 15/01/2025.
 
-Dados salvos na pasta data-raw ("climate-trace")
+Dados salvos na pasta data-raw ("ct015" e "ct024")
+
+Dados tratados no script "faxina-metadados.R" na pasta "R" 
+
+Deve-se incorporar dados de 2015-2022 a 2021-2024 (ainda fazer)
 
 ### Estação meteorológica
 
@@ -310,7 +306,7 @@ Climate TRACE para os municípios do Brasil Central
 Os arquivos foram requisitados em 4 etapas:
 Após extraidas as coordenadas do Climate TRACE (cerca de 1150),
 foram solicitadas as primeiras
-999 (requisição do appeears não aceita mais que 1000),
+999 na plataforma appeeaars (requisição do appeears não aceita mais que 1000)
 1. Solicitadas 999 para ET
 2. Solicitadas 999 para Fpar e Lai
 3. Solicitadas 999 para EVI e NDVI (único arquivo csv)
