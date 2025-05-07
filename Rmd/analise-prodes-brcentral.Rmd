@@ -1,0 +1,236 @@
+---
+title: "analise de raster (resumida)"
+subtitle: "prodes - subset para Brasil Central"
+author: "Durigan, PB (adaptado"
+date: "10-01-2024"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    fig_caption: true
+    fig_width: 8
+    fig_height: 6
+    keep_tex: true
+    latex_engine: xelatex
+    includes:
+      in_header: header.tex
+      after_body: footer.tex
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, error = FALSE)
+```
+
+```{r}
+library(terra)
+library(raster)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(geobr)
+library(sf)
+
+# Carregar raster
+r <- rast("../data-raw/desmat_prodes/prodes_br_2023.tif")   #colocar o caminho do arquivo raster
+```
+
+Criar subconjunto (subset) do raster para Brasil Central
+
+```{r}
+# Limites dos estados de interesse
+estados <- read_state(year = 2020, code_state = "all", showProgress = FALSE) |> 
+  filter(abbrev_state %in% c("MT", "MS", "GO"))
+
+# Converter para o mesmo sistema de coordenadas do raster
+estados <- st_transform(estados, crs(r))
+
+# Usando a biblioteca raster
+
+# Definir a extensão desejada (xmin, xmax, ymin, ymax)
+nova_extensao <- extent(estados)
+
+# Criar o subset
+subset <- crop(r, nova_extensao)
+
+# plot(subset)
+
+r_brcentral <- subset
+
+print(r_brcentral)
+
+# Salvar
+# writeRaster(subset, "data-raw/subsetbrcentral")
+```
+
+
+```{r}
+# Dados básicos
+print(r_brcentral)
+
+# Frequência de valores
+freq_table2 <- freq(r_brcentral)
+print(head(freq_table2))
+
+# Valores mínimo/máximo
+minmax_values2 <- minmax(r_brcentral)
+print(minmax_values2)
+
+# Visualização
+plot(r_brcentral)
+```
+
+```{r}
+# Salvar tabela de frequência
+write.csv(freq_table2, "../data/freq_table.csv", row.names = FALSE)   #colocar o caminho do arquivo pra salvar o csv
+```
+
+## Legenda
+
+```{r legenda}
+# Criando uma tabela com os valores da legenda do raster
+legenda <- data.frame(
+  valor = c(0, 2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+            50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+            91, 99, 100, 101),
+  classe = c("d2000", "d2002", "d2004", "d2006", "d2007", "d2008", "d2009", "d2010", "d2011", 
+            "d2012", "d2013", "d2014", "d2015", "d2016", "d2017", "d2018", "d2019", "d2020", 
+            "d2021", "d2022", "d2023",
+            "r2010", "r2011", "r2012", "r2013", "r2014", "r2015", "r2016", "r2017", "r2018", 
+            "r2019", "r2020", "r2021", "r2022", "r2023",
+            "Hidrografia", "Nuvem", "Vegetação Nativa", "Não Floresta")
+)
+
+# Mostrando a tabela
+knitr::kable(legenda, caption = "Valores e classes do raster PRODES Brasil 2023")
+```
+
+## Comparação legenda e frequência
+
+```{r comparacao}
+# Juntar tabelas
+freq_table2$value <- as.numeric(freq_table2$value)
+comparacao <- merge(legenda, freq_table2, by.x = "valor", by.y = "value", all = TRUE)
+names(comparacao)[names(comparacao) == "count"] <- "frequencia"
+
+# Calcular proporção
+total_pixels <- sum(comparacao$frequencia, na.rm = TRUE)
+comparacao$proporcao <- (comparacao$frequencia / total_pixels) * 100
+
+# Tratar valores NA
+comparacao$classe[is.na(comparacao$classe)] <- "Não classificado"
+
+# Mostrar tabela
+knitr::kable(head(comparacao), digits = c(0, 0, 0, 2))
+
+# Top 10 valores
+top10 <- comparacao[order(-comparacao$frequencia), ][1:10, ]
+knitr::kable(top10, digits = c(0, 0, 0, 2))
+```
+
+## Visualização por classe
+
+```{r vis_classes, fig.width=10, fig.height=6}
+# Filtrar dados
+dados_plot <- comparacao[!is.na(comparacao$frequencia) & comparacao$frequencia > 0, ]
+
+# Agrupar por tipo
+dados_plot$tipo <- ifelse(grepl("^classe", dados_plot$classe), "Grupo1", "Grupo2")
+
+# Gráfico por tipo
+ggplot(dados_plot, aes(x = reorder(tipo, -proporcao), y = proporcao, fill = tipo)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Tipo", y = "%") +
+  theme_minimal()
+```
+
+## Cálculo de áreas
+
+```{r areas}
+# Resolução do pixel em metros
+res_x <- 30
+res_y <- 30
+
+# Área do pixel em hectares
+area_pixel_ha <- (res_x * res_y) / 10000
+
+# Calcular áreas
+comparacao$area_ha <- comparacao$frequencia * area_pixel_ha
+
+# Mostrar áreas
+comparacao_areas <- comparacao[order(-comparacao$area_ha), ]
+comparacao_areas <- comparacao_areas[, c("valor", "classe", "area_ha", "proporcao")]
+knitr::kable(head(comparacao_areas), digits = c(0, 0, 2, 2))
+
+# Salvar resultados
+write.csv(comparacao_areas, "../data/areas_por_classe.csv", row.names = FALSE)
+```
+
+## Análise temporal
+
+```{r temporal}
+# Filtrar classes temporais
+classes_temporais <- comparacao[grep("[0-9]", comparacao$classe), ]
+
+# Extrair ano
+classes_temporais$ano <- as.numeric(gsub("[^0-9]", "", classes_temporais$classe))
+
+# Ordenar por ano
+classes_temporais <- classes_temporais[order(classes_temporais$ano), ]
+
+# Acumulado
+classes_temporais$area_acumulada_ha <- cumsum(classes_temporais$area_ha)
+
+# Tabela temporal
+knitr::kable(classes_temporais[, c("classe", "ano", "area_ha", "area_acumulada_ha")], 
+             digits = c(0, 0, 2, 2))
+
+# Gráfico anual
+ggplot(classes_temporais, aes(x = ano, y = area_ha/1000)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Ano", y = "Área (mil ha)") +
+  theme_minimal()
+
+# Gráfico acumulado
+ggplot(classes_temporais, aes(x = ano, y = area_acumulada_ha/1000)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Ano", y = "Área acumulada (mil ha)") +
+  theme_minimal()
+```
+
+## Resumo
+
+```{r resumo}
+# Agrupar em categorias principais
+categorias <- data.frame(
+  Categoria = c("Categoria1", "Categoria2", "Categoria3"),
+  area_ha = c(
+    sum(comparacao$area_ha[grep("cat1", comparacao$classe)], na.rm = TRUE),
+    sum(comparacao$area_ha[grep("cat2", comparacao$classe)], na.rm = TRUE),
+    sum(comparacao$area_ha[grep("cat3", comparacao$classe)], na.rm = TRUE)
+  )
+)
+
+# Calcular percentual
+categorias$percentual <- (categorias$area_ha / sum(categorias$area_ha)) * 100
+
+# Tabela de categorias
+knitr::kable(categorias, digits = c(0, 2, 2))
+
+# Gráfico de pizza
+ggplot(categorias, aes(x = "", y = area_ha, fill = Categoria)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  labs(fill = "Categoria") +
+  theme_void() +
+  geom_text(aes(label = paste0(round(percentual, 1), "%")), 
+            position = position_stack(vjust = 0.5))
+
+# Área total
+area_total_ha <- sum(categorias$area_ha)
+cat("Área total:", area_total_ha, "ha\n")
+```
