@@ -77,6 +77,23 @@ appeears <- appeears |>
 glimpse(appeears)
 # View(appeears)
 
+
+br_country <- geobr::read_country(showProgress = FALSE)
+
+br_country |> 
+  ggplot()+
+  geom_sf()+
+  geom_point(
+    data=appeears |> 
+      filter(ano == 2017), 
+      aes(lon,lat)
+  )
+
+appeears |> 
+  filter(ano == 2017) |> 
+  ggplot(aes(lon,lat)) +
+  geom_point()
+
 # Gerar arquivo com os dados
 # write.csv(appeears, 'data/appeears.csv')
 

@@ -8,9 +8,9 @@ library(sf)
 library(terra)
 
 # Carregando base de dados Raster
-dados <- raster("data-raw/desmatamento_prodes/prodes_brasil_2023.tif")
+dados <- raster("data-raw/desmat_prodes/prodes_br_2023.tif")
 
-dados2 <- rast("data-raw/desmatamento_prodes/prodes_brasil_2023.tif") # Verificando
+dados2 <- rast("data-raw/desmat_prodes/prodes_br_2023.tif") # Verificando
 # class(dados)
 
 # Verificando metadados
@@ -29,3 +29,21 @@ recorte <- crop(dados2, estados)
 # Visualizar
 plot(recorte)
 plot(vect(estados), add = TRUE, border = "red", lwd = 2)
+
+
+
+# Transformar dados tif em dados editáveis (ainda n feito)
+# install.packages(c("terra", "sf", "dplyr", "ggplot2"))
+library(terra)
+library(sf)
+library(dplyr)
+library(ggplot2)
+
+# Converter classes específicas para polígonos vetoriais
+# Exemplo para área desmatada (valor 2 no PRODES):
+desmatamento <- as.polygons(recorte == 2) %>% 
+  st_as_sf() %>% 
+  filter(layer == 100)  # Filtrar apenas onde a condição é verdadeira
+
+# Simplificar geometria para reduzir tamanho do arquivo
+desmatamento_simplificado <- st_simplify(desmatamento, dTolerance = 0.001)

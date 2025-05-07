@@ -1,7 +1,7 @@
 ---
-title: "analise de raster (resumida)"
-subtitle: "prodes - subset para Brasil Central"
-author: "Durigan, PB (adaptado"
+title: "analise de raster"
+subtitle: "prodes-Brasil"
+author: "Durigan, PB"
 date: "10-01-2024"
 output: 
   pdf_document:
@@ -27,63 +27,42 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, error = FAL
 
 ```{r}
 library(terra)
-library(raster)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
-library(geobr)
-library(sf)
 
 # Carregar raster
 r <- rast("../data-raw/desmat_prodes/prodes_br_2023.tif")   #colocar o caminho do arquivo raster
 ```
 
-Criar subconjunto (subset) do raster para Brasil Central
-
-```{r}
-# Limites dos estados de interesse
-estados <- read_state(year = 2020, code_state = "all", showProgress = FALSE) |> 
-  filter(abbrev_state %in% c("MT", "MS", "GO"))
-
-# Converter para o mesmo sistema de coordenadas do raster
-estados <- st_transform(estados, crs(r))
-
-# Definir a extensão desejada (xmin, xmax, ymin, ymax)
-nova_extensao <- extent(estados)
-
-# Criar o subset
-subset <- crop(r, nova_extensao)
-
-# plot(subset)
-
-r_brcentral <- subset
-
-print(r_brcentral)
-
-# Salvar
-# writeRaster(subset, "data-raw/subsetbrcentral")
-```
-
+Criar subconjunto (subset) do raster
 
 ```{r}
 # Dados básicos
-print(r_brcentral)
+print(r)
 
 # Frequência de valores
-freq_table2 <- freq(r_brcentral)
-print(head(freq_table2))
+freq_table <- freq(r)
+print(head(freq_table))
 
 # Valores mínimo/máximo
-minmax_values2 <- minmax(r_brcentral)
-print(minmax_values2)
+minmax_values <- minmax(r)
+print(minmax_values)
 
 # Visualização
-plot(r_brcentral)
+plot(r)
+
+# f_table <- read.csv('../data/freq_table2.csv')
+# # head(f_table)
+# # plot(f_t)
+# 
+# a_c <- read.csv("../data/areas_por_classe.csv")
+# head(a_c)
 ```
 
 ```{r}
 # Salvar tabela de frequência
-write.csv(freq_table2, "../data/freq_table.csv", row.names = FALSE)   #colocar o caminho do arquivo pra salvar o csv
+write.csv(freq_table, "../data/freq_table.csv", row.names = FALSE)   #colocar o caminho do arquivo pra salvar o csv
 ```
 
 ## Legenda
@@ -110,8 +89,8 @@ knitr::kable(legenda, caption = "Valores e classes do raster PRODES Brasil 2023"
 
 ```{r comparacao}
 # Juntar tabelas
-freq_table2$value <- as.numeric(freq_table2$value)
-comparacao <- merge(legenda, freq_table2, by.x = "valor", by.y = "value", all = TRUE)
+freq_table$value <- as.numeric(freq_table$value)
+comparacao <- merge(legenda, freq_table, by.x = "valor", by.y = "value", all = TRUE)
 names(comparacao)[names(comparacao) == "count"] <- "frequencia"
 
 # Calcular proporção
@@ -164,7 +143,7 @@ comparacao_areas <- comparacao_areas[, c("valor", "classe", "area_ha", "proporca
 knitr::kable(head(comparacao_areas), digits = c(0, 0, 2, 2))
 
 # Salvar resultados
-write.csv(comparacao_areas, "../data/areas_por_classe.csv", row.names = FALSE)
+write.csv(comparacao_areas, "areas_por_classe.csv", row.names = FALSE)
 ```
 
 ## Análise temporal
@@ -232,16 +211,3 @@ ggplot(categorias, aes(x = "", y = area_ha, fill = Categoria)) +
 area_total_ha <- sum(categorias$area_ha)
 cat("Área total:", area_total_ha, "ha\n")
 ```
-
-## Extrair coordenadas do raster
-
-```{r}
-
-```
-
-## Incorporação dos dados raster aos dados do Climate TRACE
-
-```{r}
-
-```
-

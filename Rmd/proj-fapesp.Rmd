@@ -136,6 +136,8 @@ Mais informações no link: <https://terrabrasilis.dpi.inpe.br/geonetwork/srv/en
 
 Dados salvos na pasta "data-raw/desmatamento_prodes".
 
+Script para extração dos dados de desmatamento Prodes em: "Rmd/analise-prodes.Rmd"
+
 ## Variáveis climáticas, dados do nasapower 
 
 <https://power.larc.nasa.gov/>
@@ -312,6 +314,8 @@ foram solicitadas as primeiras
 3. Solicitadas 999 para EVI e NDVI (único arquivo csv)
 4. Solicitadas as coordenadas restantes para todas as camadas anteriores (único arquivo csv)
 
-Extração das coordenadas do CT e Tratamento dos dados no script "leitura-extracao-incorporacao-appeears.R" na pasta "R" do projeto
+Extração das coordenadas do CT, Tratamento dos dados no script e Incorporação 
+appeeaars na base CT em:
+"leitura-extracao-incorporacao-appeears.R" na pasta "R" do projeto
 
 Dados tratados baixados e salvos em: "data/appeears.csv"

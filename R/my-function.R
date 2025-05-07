@@ -145,12 +145,14 @@ power_data_download <- function(lon,lat, startdate, enddate){
   df <- nasapower::get_power(
     community = 'ag',
     lonlat = c(lon,lat),
-    pars = c('ALLSKY_SFC_SW_DWN','T2M','PRECTOTCORR', 'RH2M', 'WS2M', 'PS'), #sigla das variáveis
+    pars = c('ALLSKY_SFC_SW_DWN','T2M','PRECTOTCORR', 'RH2M'), #sigla das variáveis
     dates = c(startdate,enddate),
     temporal_api = 'daily'
   )
   write.csv(df, paste0('data-raw/nasa_power/tpruvp',lon,'_',lat,'.csv'))
 }
+
+# , 'WS2M', 'PS'
 
 ### Função para download e extração dados oco2
 
