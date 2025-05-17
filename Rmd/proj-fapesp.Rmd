@@ -80,7 +80,7 @@ América do Sul, Brasil, Todos os estados, Satélite de referência (Aqua/MODIS)
 
 Dados salvos na pasta data-raw ("focos_bdqueimadas").
 
-#### DETER (ALB e Cerrado) *Não encontrei dados de focos de fogo (cicatriz de queimadas) para Cerrado
+#### DETER (ALB e Cerrado)
 
 *PANTANAL: Dados somente a partir de agosto de 2023. Como proceder????
 
