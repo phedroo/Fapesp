@@ -35,7 +35,7 @@ library(geobr)
 library(sf)
 
 # Carregar raster
-r <- rast("data-raw/desmat_prodes/prodes_br_2023.tif")   #colocar o caminho do arquivo raster
+r <- rast("../data-raw/desmat_prodes/prodes_br_2023.tif")   #colocar o caminho do arquivo raster
 ```
 
 Criar subconjunto (subset) do raster para Brasil Central
@@ -128,6 +128,8 @@ df |>
   geom_col()+
   labs(y="Area Desmatada Acumulada (M ha)",
        x="")
+
+write.csv(df, "../data/prodes_brc.csv")
 ```
 
 ```{r}
