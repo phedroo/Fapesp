@@ -56,11 +56,13 @@ appeears <- appeears |>
          evi = MOD13Q1_061__250m_16_days_EVI,
          ndvi = MOD13Q1_061__250m_16_days_NDVI,
          et = MOD16A2_061_ET_500m) |> 
-  mutate(ano = year(date)) %>%
+  mutate(ano = year(date),
+         mes = month(date),
+         dia = day(date)) %>%
   filter(
     ano >= 2015 & ano <= 2023
   ) |> 
-  group_by(lat, lon, ano) %>%
+  group_by(lat, lon, ano, mes) %>%
   summarise(
     across(c(fpar, lai, evi, ndvi, et), 
            ~ mean(., na.rm = TRUE),
@@ -105,7 +107,7 @@ appeears |>
 ct <- read_rds('data/emissions_sources.rds')
 
 # 2° Ler arquivo "appeears" para incorporação aos dados CT
-appeears <- read.csv('data/appeears.csv') #ja lido (linha 34)
+appeears <- read.csv('data/appeears.csv') #ja lido (linha 35)
 
 # 3° Incorporando bases
 dados_incorporados <- full_join(ct, appeears, by = c("lat", "lon")) 
@@ -116,4 +118,5 @@ dados_incorporados <- full_join(ct, appeears, by = c("lat", "lon"))
 
 # 4° Baixar dados incorporados
 write_rds(dados_incorporados, 'data/ct+appeears.rds')
+
 # write.csv(dados_incorporados, 'data/ct+appeears.csv') # mais leve
