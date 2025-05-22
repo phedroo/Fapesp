@@ -129,7 +129,7 @@ df |>
   labs(y="Area Desmatada Acumulada (M ha)",
        x="")
 
-write.csv(df, "../data/prodes_brc.csv")
+write_rds(df, "../data/prodes_brc.rds")
 ```
 
 ```{r}
