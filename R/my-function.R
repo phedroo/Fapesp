@@ -131,28 +131,29 @@ my_file_read <- function(sector_name){
 
 ### Download dos dados NASA power
 
+## <https://power.larc.nasa.gov>
+
 ## Glossário de parâmetros/variáveis nasapower e mais informações: 
 ## <https://power.larc.nasa.gov/beta/parameters/>
 
+# Contém valores máximos e mínimos
 ## Precipitação Corrigida (mm, PRECTOTCORR)
 ## Irradiância solar de onda curta na superfície de todo o céu (W m−2 dia−1, no projeto: MJ m-2 dia-1. All Sky Surface Shortwave Downward Irradiance) 
 ## Temperatura média do ar (ºC, Temperature at 2 Meters, T2M)
 ## Umidade relativa a 2 m (%, Relative Humidity at 2 Meters, RH2M)
 ## Velocidade do vento a 2 m (m/s, WS2M)
-## Pressão de superfície (Hectopascal (hPa), PS)
+## Pressão de superfície (Kilopascal (kPa), PS)
 
 power_data_download <- function(lon,lat, startdate, enddate){
   df <- nasapower::get_power(
     community = 'ag',
-    lonlat = c(lon,lat),
-    pars = c('ALLSKY_SFC_SW_DWN','T2M','PRECTOTCORR', 'RH2M'), #sigla das variáveis
+    lonlat = c(lon,l¹at),
+    pars = c('ALLSKY_SFC_SW_DWN','T2M','PRECTOTCORR', 'RH2M', 'WS2M', 'PS'), #sigla das variáveis
     dates = c(startdate,enddate),
     temporal_api = 'daily'
   )
   write.csv(df, paste0('data-raw/nasa_power/tpruvp',lon,'_',lat,'.csv'))
 }
-
-# , 'WS2M', 'PS'
 
 ### Função para download e extração dados oco2
 
