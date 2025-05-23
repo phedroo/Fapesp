@@ -63,7 +63,7 @@ files_names <- list.files('data-raw/nasa_power', full.names = TRUE)
 df_final <- map_dfr(files_names, read.csv)
 
 # Salvar o banco de dados final
-readr::write_csv(df_final, 'data/dados_nasapower.csv')
+readr::write_csv(df_final, 'data/dados_nasapower.rds')
 
 # ------------------- RODAR ATÉ AQUI ----------------------------------
 
