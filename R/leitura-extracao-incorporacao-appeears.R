@@ -117,6 +117,6 @@ dados_incorporados <- full_join(ct, appeears, by = c("lat", "lon"))
 # inner_join retorna apenas linhas correspondentes
 
 # 4° Baixar dados incorporados
-write_rds(dados_incorporados, 'data/ct+appeears.rds')
+# write_rds(dados_incorporados, 'data/ct+appeears.rds')
 
 # write.csv(dados_incorporados, 'data/ct+appeears.csv') # mais leve
