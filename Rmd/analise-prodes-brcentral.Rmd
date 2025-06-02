@@ -44,7 +44,7 @@ Criar subconjunto (subset) do raster para Brasil Central
 # Limites dos estados de interesse
 estados <- read_state(year = 2020, 
                       code_state = "all", showProgress = FALSE)|> 
-  filter(abbrev_state %in% c("MT", "MS", "GO"))
+  filter(abbrev_state %in% "DF") # "MT", "MS", "GO", 
 
 # Converter para o mesmo sistema de coordenadas do raster
 estados <- st_transform(estados, crs(r))
@@ -73,7 +73,7 @@ legenda <- data.frame(
              "H", "C", "V", "N")
 )
 
-## h = hidrologia; c = nuvem; v = vegetação nativa e n = não vegetada
+## d = desmatamento; r = reflorestamento; h = hidrologia; c = nuvem; v = vegetação nativa e n = não vegetada
 
 r_central_Class <- r_brcentral
 
@@ -89,23 +89,79 @@ plot(r_central_Class)
 
 
 ```{r}
-df <- r_central_Class |> 
+# df <- r_central_Class |> 
+#   freq() |> 
+#   as_tibble() |> 
+#   mutate(
+#     area_Mha = ((count*30^2)*1e-4)/1e6,
+#     ano = stringr::str_sub(value,start=2,end=5),
+#     classe = stringr::str_sub(value,start=1,end=1),
+#     classe= case_when(
+#       classe == "d"~"Desmatamento",
+#       classe == "r"~"Reflorestamento",
+#       classe=="H"~"Hidrografia",
+#       classe=="C"~"Nuvem",
+#       classe=="V"~"Vegetação Nativa",
+#       classe=="N"~"Não Vegetada",
+#       .default = "Não Observada"
+#     )
+#   )
+
+
+# Convertendo para 55,6km x 55,6km (mesma resolução do nasapower)
+# 30x30m = 900m2 --- x km2
+#          10^6m2 --- 1 km2
+# x = 0,0009km2
+
+# 55,6x55,6km = 3.091.360.000 m2
+# 0,0009 km2 --- 
+
+library(stringr)
+library(tibble)
+
+# Definindo o fator de agregação com base no tamanho do pixel original
+# 55,6 km = 55.600 m dividido por 30 m = aproximadamente 1853 pixels por lado
+
+agg_factor <- round(55600 / res(r_central_Class)[1])  # res(raster)[1] = 30 m
+
+# 2. Agregue o raster para que cada nova célula tenha 55,6 × 55,6 km
+r_agg <- aggregate(r_central_Class, fact = agg_factor, fun = "modal", na.rm = TRUE)
+
+# res(r_central_Class)[1]: pega a resolução espacial do raster (assumidamente 30 m)
+# 55600 / 30 = ~1853.33: quantos pixels de 30 m formam um lado do bloco de 55,6 km.
+# round(...): arredonda esse número para um inteiro, porque o raster precisa de divisões inteiras por pixel.
+# aggregate(): junta vários pixels pequenos em blocos maiores.
+# fact = agg_factor: define quantos pixels de 30×30 m serão agregados por lado (ex: 1853 x 1853 = 3.435.409 pixels por bloco).
+# fun = "modal": define como será feita a agregação. Aqui usamos o valor mais frequente (modal), o que faz sentido para dados categóricos (ex: classes de uso da terra, como desmatamento).
+# na.rm = TRUE: ignora pixels sem valor (NA) na agregação.
+
+
+
+
+# 3. Calcule a frequência das classes no novo raster agregado
+df <- r_agg |> 
   freq() |> 
   as_tibble() |> 
   mutate(
-    area_Mha = ((count*30^2)*1e-4)/1e6,
-    ano = stringr::str_sub(value,start=2,end=5),
-    classe = stringr::str_sub(value,start=1,end=1),
-    classe= case_when(
-      classe == "d"~"Desmatamento",
-      classe == "r"~"Reflorestamento",
-      classe=="H"~"Hidrografia",
-      classe=="C"~"Nuvem",
-      classe=="V"~"Vegetação Nativa",
-      classe=="N"~"Não Vegetada",
+    area_m2_nasapower = count * 3091360000,        # cada célula tem 3.091.360.000 m²
+    area_km2_nasapower = area_m2_nasapower / 1e6,  # convertendo para km²
+    ano = str_sub(value, start = 2, end = 5),
+    classe = str_sub(value, start = 1, end = 1),
+    classe = case_when(
+      classe == "d" ~ "Desmatamento",
+      classe == "r" ~ "Reflorestamento",
+      classe == "H" ~ "Hidrografia",
+      classe == "C" ~ "Nuvem",
+      classe == "V" ~ "Vegetação Nativa",
+      classe == "N" ~ "Não Vegetada",
       .default = "Não Observada"
     )
   )
+
+# (Opcional) Visualizar resultado
+print(df)
+
+
 
 ```
 
@@ -149,13 +205,80 @@ plot(desma_raster |> sum())
 
 ## Fazer por estado os passos acima
 
-## Extrair coordenadas do raster
+### Tentantiva de extrair coordenadas do raster
+
+#### Carregando biblioteca
+
+```{r}
+library(terra)
+library(geobr)
+library(tidyverse)
+```
+
+#### Carregando raster (.tiff)
+
+```{r}
+raster <- rast("../data-raw/desmat_prodes/prodes_br_2023.tif")
+```
+
+#### Filtrando para 1 região (DF)
+
+```{r}
+# Limites dos estados
+estados <- read_state(year = 2020, 
+                      code_state = "all", showProgress = FALSE)|> 
+  filter(abbrev_state %in% c("MT", "MS", "GO", "DF")) 
+
+# Converter para o mesmo sistema de coordenadas do raster
+estados <- st_transform(estados, crs(raster))
+
+
+# Criar o subset
+raster_brcentral <- crop(raster, estados, mask=T)
+
+plot(raster_brcentral)
+```
+
+#### Converter para resolução de 0,5° (igual ao nasapower)
+
+```{r}
+# Fator de agregação
+fator <- round(0.5 / 0.0002689)  # ≈ 1860
+# Resolução original é de 0,0002689 ~ 30 m x 30 m
+```
+
+#### Agregar o raster
+```{r}
+# Agregando os pixels 
+r_agregado <- aggregate(raster_brcentral, fact = fator, fun = mean, na.rm = TRUE)
+
+# fun = "modal": mais comum (útil se for classe de uso do solo, como desmatamento sim/não)
+# fun = "mean": média dos valores (se forem contínuos)
+# fun = "sum": soma dos valores (por ex., área total desmatada)
+# fun = "max" ou min: maior ou menor valor dentro do bloco
+
+res(r_agregado) #verificar nova resolução do raster
+```
+
+
+#### Obter pontos centrais dos pixels
+
+```{r}
+centros <- as.points(r_agregado)
+plot(centros)
+
+write_rds(centros, "../data/prodes-grade.rds")
+write.csv(centros, "../data/prodes-grade.csv")
+
+# sla <- readRDS("../data/prodes-grade.rds")
+```
+
+
+## Incorporação dos dados raster aos dados do Climate TRACE
 
 ```{r}
 
 ```
-
-## Incorporação dos dados raster aos dados do Climate TRACE
 
 ```{r}
 

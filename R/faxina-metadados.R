@@ -622,4 +622,4 @@ dados_sigla <- left_join(
 dados_sigla$nome_regiao %>%  unique()
 
 write_rds(dados_sigla %>%
-            rename(biome = biomes), "data/emissions_sources2.rds")
+            rename(biome = biomes), "data/emissions_sources.rds")

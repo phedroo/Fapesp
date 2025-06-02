@@ -144,8 +144,6 @@ Script para extração dos dados de desmatamento Prodes em: "Rmd/analise-prodes.
 
 ### Temperatura (T2M), precipitação (PRECTOTCORR), radiação solar (ALLSKY) e umidade relativa a 2 m (RH2M), velocidade do vento a 2 metros (WS2M) e pressão na superfície (PS).
 
-WS2M e PS não baixados (erro no código) - arquivo incompelto nao contem estes
-
 Processamento dos dados por API
 
 Dados diários para o período de 01/01/2015 a 01/01/2024, para a região do
